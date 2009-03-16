@@ -40,7 +40,7 @@ namespace :db do
       FileUtils.mkdir_p "#{RAILS_ROOT}/test/fixtures/#{set_or_raise}"      
       ActiveRecord::Base.establish_connection
       (ActiveRecord::Base.connection.tables - skip_tables).each do |table_name|
-        eval "#{table_name.classify}.dump_to_file('#{RAILS_ROOT}/test/fixtures/#{set_or_raise}/#{table_name}.yaml')"
+        eval "#{table_name.classify}.to_fixture(nil, nil, {}, '#{RAILS_ROOT}/test/fixtures/#{set_or_raise}/#{table_name}.yml')"
       end
     end
   end
