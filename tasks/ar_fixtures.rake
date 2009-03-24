@@ -47,13 +47,13 @@ namespace :db do
     
   namespace :data do
     desc "Dump data to the db/ directory. Use MODEL=ModelName and LIMIT (optional)"
-    task :dump => :environment do
+    task :dump_model => :environment do
       eval "#{model_or_raise}.dump_to_file(nil, #{limit_or_nil_string})"
       puts "#{model_or_raise} has been dumped to the db folder."
     end
 
     desc "Load data from the db/ directory. Use MODEL=ModelName"
-    task :load => :environment do
+    task :load_model => :environment do
       eval "#{model_or_raise}.load_from_file"
     end
   end
