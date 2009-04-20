@@ -54,6 +54,11 @@ class ActiveRecord::Base
           puts "______________"
         end
         
+        if ! (record.is_a? ActiveRecord::Base)
+          name = record[0]
+          record = self.new(record[1])
+        end
+        
         record_copy = self.new(record.attributes)
         record_copy.id = record.id
 
