@@ -43,6 +43,14 @@ namespace :db do
         eval "#{table_name.classify}.to_fixture(nil, nil, {}, '#{RAILS_ROOT}/test/fixtures/#{set_or_raise}/#{table_name}.yml')"
       end
     end
+
+    desc 'Load a fixture set from the test/fixtures/#{SET} directory.'
+    task :load_set => :environment do
+      Dir["#{RAILS_ROOT}/test/fixtures/#{set_or_raise}/*.yml"].each {|fn|
+        puts fn
+        File.basename(fn,".yml").classify.constantize.load_from_file(fn)
+      }
+    end
   end
     
   namespace :data do
