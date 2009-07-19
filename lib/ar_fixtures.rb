@@ -56,9 +56,11 @@ class ActiveRecord::Base
         
         if ! (record.is_a? ActiveRecord::Base)
           name = record[0]
+          new_id = record[1]["id"]
           record = self.new(record[1])
+          record.id = new_id
         end
-        
+
         record_copy = self.new(record.attributes)
         record_copy.id = record.id
 
