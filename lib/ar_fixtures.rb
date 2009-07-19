@@ -56,13 +56,15 @@ class ActiveRecord::Base
         
         if ! (record.is_a? ActiveRecord::Base)
           name = record[0]
-          new_id = record[1]["id"]
-          record = self.new(record[1])
-          record.id = new_id
+          attributes = record[1]
+          record = self.new
+          record.send("attributes=", attributes, false)
+          record_copy = record
+        else
+          record_copy = self.new
+          record_copy.send("attributes=", record.attributes, false)
+          record_copy.id = record.id
         end
-
-        record_copy = self.new(record.attributes)
-        record_copy.id = record.id
 
         # For Single Table Inheritance
         klass_col = record.class.inheritance_column.to_sym
@@ -70,7 +72,7 @@ class ActiveRecord::Base
           record_copy.type = record[klass_col]
         end
 
-        record_copy.save
+        record_copy.save(false)
       end
 
       if connection.respond_to?(:reset_pk_sequence!)
